@@ -6,11 +6,10 @@ Mehdi El Amri &amp; Ikram Koulali Idrissi
 * MongoDB
 
 ## steps to start the app: 
-* First import data to MongoDB: 
+First import data to MongoDB: 
 
-
-```
-Give an example
-```
+---
+mongoimport --db test --collection restaurants --drop --file primer-dataset.json
+---
 
 
