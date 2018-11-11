@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta content="initial-scale=1, shrink-to-fit=no, width=device-width" name="viewport">
+    <title>TP VueJs NodeJs MongoDb</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i|Roboto+Mono:300,400,700|Roboto+Slab:300,400,700"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Add Material CSS, replace Bootstrap CSS -->
+    <link href="css/material.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Add VueJs min-->
+    <script src="lib/vue.min.js"></script>
+    <script src="js/script.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="display-4">Rendu du TP (VueJs NodeJs MongoDb)</h1>
+        <p class="lead">Master 2 Miage INTENSE Rabat</p>
+        <div class="card">
+            <div class="card-header">
+                Mehdi El Amri & Ikram Koulali Idrissi.
+            </div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <ul>
+                        <li>L'objectif de ce Tp est de consomer des services web REST d'un serveur NodeJs.</li>
+                        <li>La couche présentation retourne une simple page (html, Js, Css) qui utilise le modèle MVC
+                            client.</li>
+                        <li>Le modèle MVC client est implémenté avec VueJs.</li>
+                    </ul>
+                </blockquote>
+            </div>
+        </div>
+
+
+
+        <div class="card text-center" id="app">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <span class="d-block p-2 bg-primary text-white">Le nombre des restaurants: {{RestaurantsCount}}</span>
+                </h4>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <p>
+                                    <button class=" p-2 bg-primary text-white" data-toggle="collapse" href="#AddForm"
+                                        aria-expanded="false" aria-controls="AddForm">Ajouter un restaurant</button>
+                                </p>
+                                <div class="collapse multi-collapse" id="AddForm">
+                                    <div class="card card-body">
+                                        <form @submit="AddRestaurantRequest(event);">
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" name="nom" required placeholder="Nom du restaurant">
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" name="cuisine" required
+                                                    placeholder="Le type de cuisine">
+                                            </div>
+                                            <button class="btn btn-primary">Ajouter</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <p>
+                                    <button class="p-2 bg-primary text-white" data-toggle="collapse" href="#SearchForm"
+                                        aria-expanded="false" aria-controls="SearchForm">Chercher un restaurant</button>
+                                </p>
+                                <div class="collapse multi-collapse" id="SearchForm">
+                                    <div class="card card-body">
+                                        <form @submit="SearchRestaurantRequest(event);">
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" v-model="name" placeholder="Nom du restaurant">
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" v-model="cuisine" placeholder="Type de cuisine (TODO)"
+                                                    disabled>
+                                            </div>
+                                            <button class="btn btn-primary">Ajouter</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <p></p>
+            <div class="card">
+                <p>
+                    <button class="d-block p-2 bg-primary text-white" v-on:click="resetApp">Reset</button>
+                </p>
+                <p>
+                    <span class="d-block p-2 bg-primary text-white">Page Size:
+                        <input type="number" :value="PageSize" v-on:change="pageSizeSignal($event)">
+                    </span>
+                </p>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <th scope="col"><p class="typography-headline">#</p></th>
+                            <th scope="col"><p class="typography-headline">nom</p></th>
+                            <th scope="col"><p class="typography-headline">cuisine</p></th>
+                            <th scope="col"><p class="typography-headline">modifier</p></th>
+                            <th scope="col"><p class="typography-headline">supprimer</p></th>
+                        </thead>
+                        <tbody>
+                            <tr scope="row" v-for="(r, index) in Restaurants">
+                                <td ><p class="typography-headline">{{(index +1)+(PageNo*PageSize)-PageSize}}</p>
+                                  </td>
+                                <td><p class="typography-headline">{{r.name}}</p></td>
+                                <td><p class="typography-headline">{{r.cuisine}}</p></td>
+                                <td><p class="typography-headline"><i v-on:click="EditRestaurantRequest(r)" class="material-icons violet600">edit</i></p></td>
+                                <td><p class="typography-headline"><i v-on:click="RemoveRestaurantRequest(r)" class="material-icons violet600">remove_circle_outline</i></p></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>
+                    <span class="d-block p-2 bg-primary text-white">Page Size:
+                        <input type="number" :value="PageSize" v-on:change="pageSizeSignal($event)">
+                        <button class="btn btn-primary" v-on:click="previousPageSignal">Precedent</button>
+                        -{{PageNo}}-
+                        <button class="btn btn-primary" v-on:click="nextPageSignal">Suivant</button>
+                    </span>
+
+                </p>
+            </div>
+
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close"></span>
+                    <div class="card text-center">
+                        <h5 class="card-title">
+                            <span class="d-block p-2 bg-primary text-white">Modification du restaurant
+                        </h5>
+                        <div class="card card-body">
+                            <form @submit="ConfirmEditRestaurantRequest(event);">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="nom" :value="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="cuisine" required :value="cuisine">
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary">modifer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
