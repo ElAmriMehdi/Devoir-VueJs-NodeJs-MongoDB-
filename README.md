@@ -9,7 +9,9 @@ L'objectif de ce TP est de consomer des services web REST avec une simple page (
 * On peut modifier et supprimer un restaurant. 
 * Le M du MVC peut s'initiliser avec le boutton Reset. 
 
+
 Ce TP est un bon exercice pour comprendre le MVC client avec VueJS. Néanmoins, l'utilisation des comopsants donne encore plus de possibilités (Eviter la duplication du code, la réutilisation et l'abstraction)
+
 
 
 
