@@ -4,7 +4,7 @@ Mehdi El Amri &amp; Ikram Koulali Idrissi
 L'objectif de ce TP est de consomer des services web REST avec une simple page (Html, Js, Css) qui implémente le modèle MVC client en utilisant la lib VueJs.
 
 * On peut afficher la liste des restaurants sous forme d'un tableau dynamique avec pagination. 
-* La pagination reste synchroniser avec le nombre de ligne que l'ueilisateur peut changer. 
+* La pagination reste synchroniser avec le nombre de ligne que l'utilisateur peut changer. 
 * On peut chercher un restaurant par son nom. 
 * On peut modifier et supprimer un restaurant. 
 * Le M du MVC peut s'initiliser avec le boutton Reset. 
