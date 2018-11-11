@@ -8,8 +8,8 @@ Mehdi El Amri &amp; Ikram Koulali Idrissi
 ## steps to start the app: 
 First import data to MongoDB: 
 
----
+```
 mongoimport --db test --collection restaurants --drop --file primer-dataset.json
----
+```
 
 
